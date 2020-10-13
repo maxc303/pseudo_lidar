@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 import scipy.misc as ssc
-
+import imageio
 import kitti_util
 
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         calib = kitti_util.Calibration(calib_file)
         # disp_map = ssc.imread(args.disparity_dir + '/' + fn) / 256.
         if fn[-3:] == 'png':
-            disp_map = ssc.imread(args.disparity_dir + '/' + fn)
+            disp_map = imageio.imread(args.disparity_dir + '/' + fn)
         elif fn[-3:] == 'npy':
             disp_map = np.load(args.disparity_dir + '/' + fn)
         else:

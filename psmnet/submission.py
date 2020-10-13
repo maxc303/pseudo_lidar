@@ -32,7 +32,7 @@ parser.add_argument('--model', default='stackhourglass',
                     help='select model')
 parser.add_argument('--maxdisp', type=int, default=192,
                     help='maxium disparity')
-parser.add_argument('--no-cuda', action='store_true', default=False,
+parser.add_argument('--no-cuda', action='store_true', default=True,
                     help='enables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
@@ -75,7 +75,10 @@ def test(imgL,imgR):
 
         if args.cuda:
            imgL = torch.FloatTensor(imgL).cuda()
-           imgR = torch.FloatTensor(imgR).cuda()     
+           imgR = torch.FloatTensor(imgR).cuda()
+
+        imgL = torch.from_numpy(imgL)
+        imgR = torch.from_numpy(imgR)
 
         imgL, imgR= Variable(imgL), Variable(imgR)
 
