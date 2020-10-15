@@ -15,9 +15,9 @@ from PIL import Image
 parser = argparse.ArgumentParser(description='PSMNet')
 parser.add_argument('--KITTI', default='2015',
                     help='KITTI version')
-parser.add_argument('--datapath', default='/media/jiaren/ImageNet/data_scene_flow_2015/testing/',
+parser.add_argument('--datapath', default='../KITTI/object/testing/',
                     help='select model')
-parser.add_argument('--loadmodel', default='./trained/pretrained_model_KITTI2015.tar',
+parser.add_argument('--loadmodel', default='../psmnet/models/finetune_300.tar',
                     help='loading model')
 parser.add_argument('--model', default='stackhourglass',
                     help='select model')
@@ -27,7 +27,7 @@ parser.add_argument('--no-cuda', action='store_true', default=True,
                     help='enables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
-parser.add_argument('--save_path', type=str, default='./', metavar='S',
+parser.add_argument('--save_path', type=str, default='../result', metavar='S',
                     help='path to save the predict')
 args = parser.parse_args()
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -37,9 +37,9 @@ if args.cuda:
     torch.cuda.manual_seed(args.seed)
 
 if args.KITTI == '2015':
-   from dataloader import KITTI_submission_loader as DA
+   from psmnet.dataloader import KITTI_submission_loader as DA
 else:
-   from dataloader import KITTI_submission_loader2012 as DA  
+   from psmnet.dataloader import KITTI_submission_loader2012 as DA
 
 test_left_img, test_right_img = DA.dataloader(args.datapath)
 
@@ -76,9 +76,10 @@ def main():
                         'std': [0.229, 0.224, 0.225]}
     infer_transform = transforms.Compose([transforms.ToTensor(),
                                             transforms.Normalize(**normal_mean_var)])    
+    print("Before for loop")
+    print("range is ", range(len(test_left_img)))
 
     for inx in range(len(test_left_img)):
-
 
         imgL_o = Image.open(test_left_img[inx]).convert('RGB')
         imgR_o = Image.open(test_right_img[inx]).convert('RGB')

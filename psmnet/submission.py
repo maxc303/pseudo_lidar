@@ -16,17 +16,17 @@ import skimage.transform
 import numpy as np
 import time
 import math
-from utils import preprocess 
-from models import *
+from psmnet.utils import preprocess
+from psmnet.models import *
 
 # 2012 data /media/jiaren/ImageNet/data_scene_flow_2012/testing/
 
 parser = argparse.ArgumentParser(description='PSMNet')
 parser.add_argument('--KITTI', default='2015',
                     help='KITTI version')
-parser.add_argument('--datapath', default='/scratch/datasets/kitti2015/testing/',
+parser.add_argument('--datapath', default='../KITTI/object/testing/',
                     help='select model')
-parser.add_argument('--loadmodel', default=None,
+parser.add_argument('--loadmodel', default='../psmnet/models/finetune_300.tar',
                     help='loading model')
 parser.add_argument('--model', default='stackhourglass',
                     help='select model')
@@ -36,7 +36,7 @@ parser.add_argument('--no-cuda', action='store_true', default=True,
                     help='enables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
-parser.add_argument('--save_path', type=str, default='finetune_1000', metavar='S',
+parser.add_argument('--save_path', type=str, default='../result', metavar='S',
                     help='path to save the predict')
 parser.add_argument('--save_figure', action='store_true', help='if true, save the numpy file, not the png file')
 args = parser.parse_args()
@@ -95,7 +95,7 @@ def main():
    if not os.path.isdir(args.save_path):
        os.makedirs(args.save_path)
 
-
+   print("range is ",range(len(test_left_img)))
    for inx in range(len(test_left_img)):
 
        imgL_o = (skimage.io.imread(test_left_img[inx]).astype('float32'))
@@ -110,6 +110,7 @@ def main():
        left_pad = 1248-imgL.shape[3]
        imgL = np.lib.pad(imgL,((0,0),(0,0),(top_pad,0),(0,left_pad)),mode='constant',constant_values=0)
        imgR = np.lib.pad(imgR,((0,0),(0,0),(top_pad,0),(0,left_pad)),mode='constant',constant_values=0)
+
 
        start_time = time.time()
        pred_disp = test(imgL,imgR)
