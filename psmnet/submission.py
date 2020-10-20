@@ -16,8 +16,8 @@ import skimage.transform
 import numpy as np
 import time
 import math
-from psmnet.utils import preprocess
-from psmnet.models import *
+from utils import preprocess
+from models import *
 
 # 2012 data /media/jiaren/ImageNet/data_scene_flow_2012/testing/
 

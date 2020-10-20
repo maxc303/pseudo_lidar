@@ -112,3 +112,6 @@ result/
 visualization/*.bin
 #tar
 *.tar
+
+GANet/
+avod/

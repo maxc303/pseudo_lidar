@@ -37,9 +37,9 @@ if args.cuda:
     torch.cuda.manual_seed(args.seed)
 
 if args.KITTI == '2015':
-   from psmnet.dataloader import KITTI_submission_loader as DA
+   from dataloader import KITTI_submission_loader as DA
 else:
-   from psmnet.dataloader import KITTI_submission_loader2012 as DA
+   from dataloader import KITTI_submission_loader2012 as DA
 
 test_left_img, test_right_img = DA.dataloader(args.datapath)
 
@@ -106,7 +106,7 @@ def main():
         start_time = time.time()
         pred_disp = test(imgL,imgR)
         print('time = %.2f' %(time.time() - start_time))
-
+        print('Saved #' + str(inx) + '/' + str(len(test_left_img)) )
         if top_pad !=0 or right_pad != 0:
             img = pred_disp[top_pad:,:-right_pad]
         else:
