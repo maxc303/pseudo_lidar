@@ -5,8 +5,8 @@ import numpy as np
 import scipy.misc as ssc
 
 import imageio
-import preprocessing.kitti_util
-
+import kitti_util
+from PIL import Image
 
 def generate_dispariy_from_velo(pc_velo, height, width, calib):
     pts_2d = calib.project_velo_to_image(pc_velo)
@@ -18,12 +18,14 @@ def generate_dispariy_from_velo(pc_velo, height, width, calib):
     imgfov_pc_rect = calib.project_velo_to_rect(imgfov_pc_velo)
     depth_map = np.zeros((height, width)) - 1
     imgfov_pts_2d = np.round(imgfov_pts_2d).astype(int)
+
     for i in range(imgfov_pts_2d.shape[0]):
         depth = imgfov_pc_rect[i, 2]
         depth_map[int(imgfov_pts_2d[i, 1]), int(imgfov_pts_2d[i, 0])] = depth
     baseline = 0.54
 
     disp_map = (calib.f_u * baseline) / depth_map
+    disp_map[depth_map==-1]=0
     return disp_map
 
 
@@ -65,5 +67,11 @@ if __name__ == '__main__':
         image = imageio.imread(image_file)
         height, width = image.shape[:2]
         disp = generate_dispariy_from_velo(lidar, height, width, calib)
-        np.save(disparity_dir + '/' + predix, disp)
+        if(predix=='000003'):
+            print(disp[200:210, 150:160])
+        img = (disp*256).astype('uint16')
+        if(predix=='000003'):
+            print(img[200:210, 150:160])
+        img = Image.fromarray(img)
+        img.save(disparity_dir  + '/' + predix+'.png')
         print('Finish Disparity {}'.format(predix))

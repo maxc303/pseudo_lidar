@@ -10,11 +10,13 @@ import sys
 import numpy as np
 import cv2
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(BASE_DIR)
-sys.path.append(os.path.join(ROOT_DIR, "mayavi"))
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# print(BASE_DIR)
+# ROOT_DIR = os.path.dirname(BASE_DIR)
+# sys.path.append(os.path.join(ROOT_DIR, "mayavi"))
 import kitti_util as utils
 import argparse
+from mayavi import mlab
 
 try:
     raw_input  # Python 2
@@ -359,8 +361,8 @@ def show_lidar_with_depth(
 ):
     """ Show all LiDAR points.
         Draw 3d box in LiDAR point cloud (in velo coord system) """
-    if "mlab" not in sys.modules:
-        import mayavi.mlab as mlab
+#     if "mlab" not in sys.modules:
+#         import mayavi.mlab as mlab
     from viz_util import draw_lidar_simple, draw_lidar, draw_gt_boxes3d
 
     print(("All point num: ", pc_velo.shape[0]))
@@ -512,8 +514,8 @@ def show_lidar_with_boxes(
 ):
     """ Show all LiDAR points.
         Draw 3d box in LiDAR point cloud (in velo coord system) """
-    if "mlab" not in sys.modules:
-        import mayavi.mlab as mlab
+#     if "mlab" not in sys.modules:
+#         import mayavi.mlab as mlab
     from viz_util import draw_lidar_simple, draw_lidar, draw_gt_boxes3d
 
     print(("All point num: ", pc_velo.shape[0]))
@@ -704,12 +706,12 @@ def dataset_viz(root_dir, args):
     ## load 2d detection results
     #objects2ds = read_det_file("box2d.list")
 
-    if args.show_lidar_with_depth:
-        import mayavi.mlab as mlab
+#     if args.show_lidar_with_depth:
+#         import mayavi.mlab as mlab
 
-        fig = mlab.figure(
-            figure=None, bgcolor=(0, 0, 0), fgcolor=None, engine=None, size=(1000, 500)
-        )
+    fig = mlab.figure(
+        figure=None, bgcolor=(0, 0, 0), fgcolor=None, engine=None, size=(1000, 500)
+    )
     for data_idx in range(len(dataset)):
         if args.ind > 0:
             data_idx = args.ind
@@ -850,7 +852,7 @@ def read_det_file(det_filename):
 
 
 if __name__ == "__main__":
-    import mayavi.mlab as mlab
+
     from viz_util import draw_lidar_simple, draw_lidar, draw_gt_boxes3d
 
     parser = argparse.ArgumentParser(description="KIITI Object Visualization")

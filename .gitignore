@@ -115,3 +115,5 @@ visualization/*.bin
 
 GANet/
 avod/
+*.ckpt
+tools/disp_*/

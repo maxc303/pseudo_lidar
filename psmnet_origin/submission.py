@@ -8,6 +8,7 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 import numpy as np
 import time
+import datetime
 import math
 from models import *
 from PIL import Image
@@ -105,8 +106,9 @@ def main():
 
         start_time = time.time()
         pred_disp = test(imgL,imgR)
-        print('time = %.2f' %(time.time() - start_time))
-        print('Saved #' + str(inx) + '/' + str(len(test_left_img)) )
+        print('Saved Image #' + str(inx) + '/' + str(len(test_left_img)) )
+        time_remaining = (len(test_left_img)-inx)*(time.time() - start_time);
+        print('time = %.2f s' %(time.time() - start_time), "Assume remaining time = ",datetime.timedelta(seconds=time_remaining))
         if top_pad !=0 or right_pad != 0:
             img = pred_disp[top_pad:,:-right_pad]
         else:
