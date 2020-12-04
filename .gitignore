@@ -117,3 +117,6 @@ GANet/
 avod/
 *.ckpt
 tools/disp_*/
+tools/pl/
+filters/*/
+kitti_object_vis/
